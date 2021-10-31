@@ -37,11 +37,33 @@ def isLowestCreditScore(credit_score):
 def isCreditAmountMoreThanIncomeThird(income_val, credit_amnt, credit_term):
     return (3*credit_amnt > income_val*credit_term)
 
-def isRetired():
-    return False
+def isRetired(age, gender, credit_term):
+    curr_year = 2021
+    if gender == "M":
+        if curr_year + credit_term in (2022, 2023) and age + credit_term >= 62:
+            return True
+        elif curr_year + credit_term in (2024, 2025) and age + credit_term >= 63:
+            return True
+        elif curr_year + credit_term in (2026, 2027) and age + credit_term >= 64:
+            return True
+        elif curr_year + credit_term >= 2028 and age + credit_term >= 65:
+            return True
+        else:
+            return False
+    elif gender == "F":
+        if curr_year + credit_term in (2022, 2023) and age + credit_term >= 57:
+            return True
+        elif curr_year + credit_term in (2024, 2025) and age + credit_term >= 58:
+            return True
+        elif curr_year + credit_term in (2026, 2027) and age + credit_term >= 59:
+            return True
+        elif curr_year + credit_term >= 2028 and age + credit_term >= 60:
+            return True
+        else:
+            return False
 
 def credit_decision(age, gender, income_src, income_val, credit_score, credit_amnt, credit_term, credit_purp):
-    if isUnempoyed(income_src) or isLowestCreditScore(credit_score) or isRetired() or isCreditAmountMoreThanIncomeThird(income_val, credit_amnt, credit_term):
+    if isUnempoyed(income_src) or isLowestCreditScore(credit_score) or isRetired(age, gender, credit_term) or isCreditAmountMoreThanIncomeThird(income_val, credit_amnt, credit_term):
         return "Кредит не выдаётся"
     else:
         interest = interestRate(income_src, credit_score, credit_amnt, credit_purp)
@@ -54,4 +76,6 @@ def credit_decision(age, gender, income_src, income_val, credit_score, credit_am
             else:
                 return "Кредит выдаётся\nГодовой платёж по кредиту: " + str(round(credit_pay, 3))
 
-print(credit_decision(25, "M", "пассивный доход", 1, 2, 0.6, 2, "развитие бизнеса"))
+#print(credit_decision(29, "M", "пассивный доход", 1, 0, 0.5, 5, "потребительский"))
+#print(credit_decision(33, "F", "собственный бизнес", 2, -1, 7.2, 11, "потребительский"))
+
